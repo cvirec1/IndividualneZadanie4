@@ -174,7 +174,7 @@ namespace DepartmentStructure
                 if (cbxSupervisor.Items.Count != 0)
                 {
                     var ret3 = cbxSupervisor.SelectedItem.ToString().Split(' ');
-                    _departmentViewModel.NewDepartment.EmployeeData.EmployeeID = int.Parse(ret3[0]);
+                    _departmentViewModel.Department.EmployeeData.EmployeeID = int.Parse(ret3[0]);
                 }
                 _departmentViewModel.Department.IdCompany = _departmentViewModel.CompanyID;
                 _departmentViewModel.UpdateDepartment();
