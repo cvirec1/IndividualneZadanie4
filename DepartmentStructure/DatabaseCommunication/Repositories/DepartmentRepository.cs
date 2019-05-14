@@ -13,6 +13,55 @@ namespace DatabaseCommunication.Repositories
 {
     public class DepartmentRepository
     {
+        public Department GetDepartmentByID(int departmentID)
+        {
+            Department department = new Department();
+            using (SqlConnection connection = new SqlConnection(Settings1.Default.ConnString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"SELECT * FROM [DepartmentStructure].[dbo].[Department]
+                                                where DepartmentID = @departmentID";
+
+                        command.Parameters.Add("@departmentID", SqlDbType.Int).Value = departmentID;
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    department.DepartmentID= reader.GetInt32(0);
+                                    department.DepartmentName = reader.GetString(1);
+                                    department.DepartmentCode = reader.GetString(2);
+                                    department.HeadDepartment = reader.GetInt32(3);
+                                    department.CompanyLevelData.CompanyLevelID = reader.GetInt32(4);
+                                    department.IdCompany = reader.GetInt32(5);
+                                    department.EmployeeData.EmployeeID = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6);
+                                    
+                                }
+                            }
+                        }
+
+                        catch (SqlException e)
+                        {
+                            Debug.WriteLine("Exception throw when executing SQL command. Exception description follows");
+                            Debug.WriteLine(e.ToString());
+                        }
+
+                    }
+                }
+                catch (SqlException e)
+                {
+                    Debug.WriteLine("Exception throw when opening connection to database! Exception description follows");
+                    Debug.WriteLine(e.ToString());                    
+                }
+            }
+            return department;
+        }
+
         public DataSet ViewAllCompany()
         {
             string sqlQuery = @"  SELECT dep.[DepartmentID]		                        
@@ -187,14 +236,117 @@ namespace DatabaseCommunication.Repositories
                     connection.Open();
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = @"insert into department (DepartmentName,DepartmentCode,HeadDepartment,CompanyLevelID,EmployeeID,IDcompany)
-                                                values (@name,@code,@head,@company,@employee,@IDcompany);";
+                        command.CommandText = @"insert into department (DepartmentName,DepartmentCode,HeadDepartment,CompanyLevelID,EmployeeID,IDCompany)
+                                                output inserted.DepartmentID values (@name,@code,@head,@company,@employee,@IDcompany);";
                         command.Parameters.Add("@name", SqlDbType.NVarChar).Value = department.DepartmentName;
                         command.Parameters.Add("@code", SqlDbType.NVarChar).Value = department.DepartmentCode;
                         command.Parameters.Add("@head", SqlDbType.Int).Value = (object)department.HeadDepartment ?? DBNull.Value;
                         command.Parameters.Add("@company", SqlDbType.Int).Value = department.CompanyLevelData.CompanyLevelID;
                         command.Parameters.Add("@employee", SqlDbType.Int).Value = (object)department.EmployeeData.EmployeeID ?? DBNull.Value;
-                        command.Parameters.Add("@IDcompany", SqlDbType.Int).Value = department.IdCompany;
+                        command.Parameters.Add("@IDcompany", SqlDbType.Int).Value = (object)department.IdCompany ?? DBNull.Value;
+                        try
+                        {
+                            int insertedid = (int)command.ExecuteScalar();
+                            if (department.IdCompany == null)
+                            {
+                                UpdateCompanyID(insertedid);
+                            }
+                            if (insertedid > 0)
+                            {
+                                dBRespose = DbEnum.DBResposeType.OK;
+                            }
+                            else
+                            {
+                                dBRespose = DbEnum.DBResposeType.NotOK;
+                            }
+                        }
+
+                        catch (SqlException e)
+                        {
+                            Debug.WriteLine("Exception throw when executing SQL command. Exception description follows");
+                            Debug.WriteLine(e.ToString());
+                            dBRespose = DbEnum.DBResposeType.SQLError;
+                        }
+                    }
+                }
+                catch (SqlException e)
+                {
+                    Debug.WriteLine("Exception throw when opening connection to database! Exception description follows");
+                    Debug.WriteLine(e.ToString());
+                    dBRespose = DbEnum.DBResposeType.ConnectionError;
+                }
+            }
+            return dBRespose;
+        }
+
+        public bool UpdateCompanyID(int companyID)
+        {
+            using (SqlConnection connection = new SqlConnection(Settings1.Default.ConnString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"Update Department
+                                                set  IDCompany = @company
+                                                where DepartmentID = @departmentID;";
+                        
+                        command.Parameters.Add("@company", SqlDbType.Int).Value = companyID;
+                        command.Parameters.Add("@departmentID", SqlDbType.Int).Value = companyID;
+
+                        try
+                        {
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+
+                        catch (SqlException e)
+                        {
+                            Debug.WriteLine("Exception throw when executing SQL command. Exception description follows");
+                            Debug.WriteLine(e.ToString());
+                            
+                        }
+                    }
+                }
+                catch (SqlException e)
+                {
+                    Debug.WriteLine("Exception throw when opening connection to database! Exception description follows");
+                    Debug.WriteLine(e.ToString());
+                }
+            }
+            return false;
+        }
+
+        public DbEnum.DBResposeType UpdateCompany(Department department)
+        {
+            DbEnum.DBResposeType dBRespose;
+            using (SqlConnection connection = new SqlConnection(Settings1.Default.ConnString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"Update Department
+                                                set DepartmentName = @name,
+                                                DepartmentCode = @code,
+                                                HeadDepartment = @head,
+                                                CompanyLevelID = @company,
+                                                EmployeeID = @employee
+                                                where DepartmentID = @departmentID;";
+                        command.Parameters.Add("@name", SqlDbType.NVarChar).Value = department.DepartmentName;
+                        command.Parameters.Add("@code", SqlDbType.NVarChar).Value = department.DepartmentCode;
+                        command.Parameters.Add("@head", SqlDbType.Int).Value = (object)department.HeadDepartment ?? DBNull.Value;
+                        command.Parameters.Add("@company", SqlDbType.Int).Value = department.CompanyLevelData.CompanyLevelID;
+                        command.Parameters.Add("@employee", SqlDbType.Int).Value = (object)department.EmployeeData.EmployeeID ?? DBNull.Value;
+                        command.Parameters.Add("@departmentID", SqlDbType.NVarChar).Value = department.DepartmentID;
                         try
                         {
                             if (command.ExecuteNonQuery() > 0)

@@ -19,10 +19,11 @@ namespace DepartmentStructure
             InitializeComponent();
             _companyViewModel = new CompanyViewModel();
             dgwCompany.DataSource = _companyViewModel.GetAllCompanies();
-            dgwCompany.DataMember = "Company";
+            dgwCompany.DataMember = "Company";           
             if (dgwCompany.RowCount > 0)
             {
                 _companyID = (int)dgwCompany.Rows[0].Cells[0].Value;
+                dgwCompany.DataMember = "Company";
             }
             else
             {
@@ -61,12 +62,13 @@ namespace DepartmentStructure
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using (DepartmentView departmentView = new DepartmentView(1))
+            using (DepartmentView departmentView = new DepartmentView(0))
             {
                 departmentView.ShowDialog();
                 if (departmentView.DialogResult == DialogResult.OK)
                 {
                     dgwCompany.DataSource = _companyViewModel.GetAllCompanies();
+                    dgwCompany.DataMember = "Company";
                 }
             }
         }

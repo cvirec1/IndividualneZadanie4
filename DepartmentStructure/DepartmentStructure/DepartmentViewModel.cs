@@ -14,6 +14,7 @@ namespace DepartmentStructure
         private DepartmentFunction _departmentFunction = new DepartmentFunction();
         public DBResult ActionResult { get; private set; }
         public Department NewDepartment { get; set; }
+        public Department Department { get; private set; }
         public Dictionary<int,string> CompanyLevelList { get; private set; }
         public List<Department> DepartmentList { get; private set; }
         public List<Employee> EmployyeList { get; private set; }
@@ -24,12 +25,22 @@ namespace DepartmentStructure
         {
             NewDepartment = new Department();
             GetAllCompanyLevel();
-            GetAllEmployees();
+            GetAllEmployees();            
+        }
+
+        public void GetDepartmentByID(int departmentID)
+        {
+            Department = _departmentFunction.GetDepartmentByID(departmentID);
         }
 
         public void AddDepartment()
         {
             ActionResult = _departmentFunction.AddDepartment(NewDepartment);
+        }
+
+        public void UpdateDepartment()
+        {
+            ActionResult = _departmentFunction.UpdateDepartment(Department);
         }
 
         public void GetAllCompanyLevel()

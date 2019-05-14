@@ -66,10 +66,16 @@ namespace DepartmentStructure
                     _employeeViewModel.Employee.Title = txbTitle.Text;
                     _employeeViewModel.Employee.Name= txbName.Text;
                     _employeeViewModel.Employee.Surname= txbSurname.Text;
-                    _employeeViewModel.Employee.Phone = txbPhone.Text;    
-                    var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
-                    _employeeViewModel.Employee.DepartmentID= int.Parse(ret[0]);
-
+                    _employeeViewModel.Employee.Phone = txbPhone.Text;
+                    if (cbxDepartment.Items.Count != 0)
+                    {
+                        var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
+                        _employeeViewModel.Employee.DepartmentID = int.Parse(ret[0]);
+                    }
+                    else
+                    {
+                        _employeeViewModel.Employee.DepartmentID = _employeeViewModel.CompanyID;
+                    }
                     _employeeViewModel.UpdateEmployee();
                     if (_employeeViewModel.ActionResult.DBResultEnum == DbEnum.DBResposeType.OK)
                     {
@@ -102,8 +108,15 @@ namespace DepartmentStructure
                     _employeeViewModel.NewEmployee.Name = txbName.Text;
                     _employeeViewModel.NewEmployee.Surname= txbSurname.Text;
                     _employeeViewModel.NewEmployee.Phone = txbPhone.Text;
-                    var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
-                    _employeeViewModel.NewEmployee.DepartmentID = int.Parse(ret[0]);                    
+                    if(cbxDepartment.Items.Count != 0)
+                    {
+                        var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
+                        _employeeViewModel.NewEmployee.DepartmentID = int.Parse(ret[0]);
+                    }
+                    else
+                    {
+                        _employeeViewModel.NewEmployee.DepartmentID = _employeeViewModel.CompanyID;
+                    }
                     _employeeViewModel.AddEmployee();
                     if (_employeeViewModel.ActionResult.DBResultEnum == DbEnum.DBResposeType.OK)
                     {

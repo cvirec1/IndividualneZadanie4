@@ -11,8 +11,8 @@ namespace DatabaseCommunication.Models
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
         public string DepartmentCode { get; set; }
-        public int HeadDepartment { get; set; }
-        public int IdCompany { get; set; }
+        public int? HeadDepartment { get; set; }
+        public int? IdCompany { get; set; }
         public CompanyLevel CompanyLevelData { get; set; }
         public Employee EmployeeData { get; set; }
 

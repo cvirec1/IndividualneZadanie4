@@ -42,7 +42,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnAddSupervisor = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgwEmployee)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwCompany)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwDivision)).BeginInit();
@@ -80,6 +79,7 @@
             this.dgwCompany.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgwCompany.Size = new System.Drawing.Size(276, 335);
             this.dgwCompany.TabIndex = 1;
+            this.dgwCompany.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompany_CellClick);
             this.dgwCompany.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompany_RowEnter);
             // 
             // btnAdd
@@ -151,6 +151,7 @@
             this.dgwDivision.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgwDivision.Size = new System.Drawing.Size(276, 335);
             this.dgwDivision.TabIndex = 7;
+            this.dgwDivision.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwDivision_CellClick);
             this.dgwDivision.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwDivision_RowEnter);
             // 
             // dgwProject
@@ -225,22 +226,11 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "Department";
             // 
-            // btnAddSupervisor
-            // 
-            this.btnAddSupervisor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnAddSupervisor.Location = new System.Drawing.Point(511, 256);
-            this.btnAddSupervisor.Name = "btnAddSupervisor";
-            this.btnAddSupervisor.Size = new System.Drawing.Size(203, 34);
-            this.btnAddSupervisor.TabIndex = 14;
-            this.btnAddSupervisor.Text = "Add Head OF";
-            this.btnAddSupervisor.UseVisualStyleBackColor = true;
-            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1227, 678);
-            this.Controls.Add(this.btnAddSupervisor);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -283,7 +273,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnAddSupervisor;
     }
 }
 

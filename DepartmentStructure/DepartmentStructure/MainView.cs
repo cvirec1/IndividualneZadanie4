@@ -116,6 +116,7 @@ namespace DepartmentStructure
                         $"Success delete.",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
+                    dgwEmployee.DataSource = _mainViewModel.GetAllEmployees();
                 }
                 else
                 {
@@ -145,7 +146,21 @@ namespace DepartmentStructure
             using (DepartmentView departmentView = new DepartmentView(_mainViewModel.DepartmentID, _mainViewModel.CompanyID))
             {
                 departmentView.ShowDialog();
+                if (departmentView.DialogResult == DialogResult.OK)
+                {
+                    SetAllDataSource();
+                }
             }
+        }
+
+        private void dgwDivision_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _mainViewModel.DepartmentID = (int)dgwDivision.Rows[e.RowIndex].Cells[0].Value;
+        }
+
+        private void dgwCompany_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _mainViewModel.DepartmentID = (int)dgwCompany.Rows[e.RowIndex].Cells[0].Value;
         }
     }
 }

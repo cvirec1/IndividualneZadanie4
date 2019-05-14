@@ -18,6 +18,11 @@ namespace DepartmentLogic
             return RepositoryManager.EmployeeRepository.GetEmployeeByID(employeeID);
         }
 
+        public Department GetDepartmentByID(int departmentID)
+        {
+            return RepositoryManager.DepartmentRepository.GetDepartmentByID(departmentID);
+        }
+
         public DataSet GetAllEmployees(int companyID)
         {
             return RepositoryManager.EmployeeRepository.ViewAllEmployee(companyID);
@@ -52,6 +57,27 @@ namespace DepartmentLogic
             {
                 case DbEnum.DBResposeType.OK:
                     result.DBResultMessage = "Succes update employee.";
+                    break;
+                case DbEnum.DBResposeType.ConnectionError:
+                    result.DBResultMessage = "Connection error. Please check your SQL connection!";
+                    break;
+                case DbEnum.DBResposeType.SQLError:
+                    result.DBResultMessage = "SQL query syntax problem!";
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+        public DBResult UpdateDepartment(Department department)
+        {
+            DBResult result = new DBResult();
+            result.DBResultEnum = RepositoryManager.DepartmentRepository.UpdateCompany(department);
+            switch (result.DBResultEnum)
+            {
+                case DbEnum.DBResposeType.OK:
+                    result.DBResultMessage = "Succes update node.";
                     break;
                 case DbEnum.DBResposeType.ConnectionError:
                     result.DBResultMessage = "Connection error. Please check your SQL connection!";
