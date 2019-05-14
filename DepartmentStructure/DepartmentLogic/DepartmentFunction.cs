@@ -1,8 +1,10 @@
-﻿using DatabaseCommunication;
+﻿using com.rusanu.dataconnectiondialog;
+using DatabaseCommunication;
 using DatabaseCommunication.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,11 @@ namespace DepartmentLogic
         public Employee GetEmployeeByID(int employeeID)
         {
             return RepositoryManager.EmployeeRepository.GetEmployeeByID(employeeID);
+        }
+
+        public DataSet GetAllEmployees(int companyID)
+        {
+            return RepositoryManager.EmployeeRepository.ViewAllEmployee(companyID);
         }
 
         public DBResult AddEmployee(Employee employee)
@@ -83,6 +90,42 @@ namespace DepartmentLogic
         public DataSet GetAllCompanies()
         {
             return RepositoryManager.DepartmentRepository.ViewAllCompany();
+        }
+
+        public DataSet GetCompany(int companyID)
+        {
+            return RepositoryManager.DepartmentRepository.ViewCompany(companyID);
+        }
+
+        public DataSet GetAllDivision(int companyID)
+        {
+            return RepositoryManager.DepartmentRepository.ViewAllDivision(companyID);
+        }
+
+        public DataSet GetAllProject(int companyID)
+        {
+            return RepositoryManager.DepartmentRepository.ViewAllProject(companyID);
+        }
+
+        public DataSet GetAllDepartment(int companyID)
+        {
+            return RepositoryManager.DepartmentRepository.ViewAllDepartment(companyID);
+        }
+
+        public List<Department> GetAllDepartmentList(int companyLevel, int companyID)
+        {
+            return RepositoryManager.DepartmentRepository.GetDepartmentList(companyLevel,companyID);
+        }
+
+        public List<Employee> GetAllEmployeeList()
+        {
+            return RepositoryManager.EmployeeRepository.GetEmployeeList();
+        }
+
+        public Dictionary<int, string> GetAllCompanyLevel()
+        {             
+            RepositoryManager.CompanyLevelRepository.GetCompanyLevelData();
+            return RepositoryManager.CompanyLevelRepository.DepartmentData;  
         }
 
         public DBResult AddDepartment(Department department)

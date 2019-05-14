@@ -87,7 +87,7 @@ namespace DatabaseCommunication.Repositories
                         command.Parameters.Add("@surname", SqlDbType.NVarChar).Value = newEmployee.Surname;
                         command.Parameters.Add("@phone", SqlDbType.NVarChar).Value = newEmployee.Phone;
                         command.Parameters.Add("@mail", SqlDbType.NVarChar).Value = newEmployee.Mail;
-                        command.Parameters.Add("@department", SqlDbType.Int).Value = newEmployee.DepartmentID;
+                        command.Parameters.Add("@department", SqlDbType.Int).Value = (object)newEmployee.DepartmentID ?? DBNull.Value;
 
                         try
                         {
@@ -117,6 +117,41 @@ namespace DatabaseCommunication.Repositories
                 }                
             }
             return dBRespose;
+        }
+
+        public DataSet ViewAllEmployee(int companyID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Settings1.Default.ConnString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = @" SELECT em.[EmployeeID]
+                                        ,[Title]
+                                        ,[Name]
+                                        ,[Surname]
+                                        ,[Phone]
+                                        ,[Mail]
+                                        ,em.[DepartmentID]
+                                        FROM [DepartmentStructure].[dbo].[Employee] as em
+										join Department as d on em.departmentid = d.departmentid
+                                        where IDcompany = @company;";
+                        command.Parameters.Add("@company", SqlDbType.Int).Value = companyID;
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(ds, "Employee");
+                        DataTable dt = ds.Tables["Employee"];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return ds;
         }
 
         /// <summary>
@@ -226,6 +261,53 @@ namespace DatabaseCommunication.Repositories
                 }      
             }
             return resposeType;
+        }
+
+        public List<Employee> GetEmployeeList()
+        {
+            List<Employee> employees = new List<Employee>();
+            using (SqlConnection connection = new SqlConnection(Settings1.Default.ConnString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"SELECT [EmployeeID],[Name],[Surname]      
+                                                FROM [DepartmentStructure].[dbo].[Employee]";
+
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    Employee employee= new Employee();
+                                    employee.EmployeeID = reader.GetInt32(0);
+                                    employee.Name = reader.GetString(1);
+                                    employee.Surname = reader.GetString(2);
+                                    employees.Add(employee);
+                                }
+                            }
+                        }
+
+                        catch (SqlException e)
+                        {
+                            Debug.WriteLine("Exception throw when executing SQL command. Exception description follows");
+                            Debug.WriteLine(e.ToString());
+
+                        }
+
+                    }
+                }
+                catch (SqlException e)
+                {
+                    Debug.WriteLine("Exception throw when opening connection to database! Exception description follows");
+                    Debug.WriteLine(e.ToString());
+                }
+            }
+            return employees;
         }
     }
 }

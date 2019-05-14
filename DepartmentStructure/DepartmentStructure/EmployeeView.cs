@@ -14,27 +14,42 @@ namespace DepartmentStructure
     public partial class EmployeeView : Form
     {
         private EmployeeViewModel _employeeViewModel;
-        public EmployeeView()
+        public EmployeeView(int companyID)
         {
             InitializeComponent();
             _employeeViewModel = new EmployeeViewModel();
+            _employeeViewModel.CompanyID = companyID;
+            _employeeViewModel.GetAllDepartments();
+            foreach (var item in _employeeViewModel.DepartmentList)
+            {
+                cbxDepartment.Items.Add($"{item.DepartmentID} - {item.DepartmentName}");
+            }
+            if (cbxDepartment.Items.Count != 0)
+            {
+                cbxDepartment.SelectedIndex = 0;
+            }
+            cbxDepartment.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public EmployeeView(int employeeID)
+        public EmployeeView(int employeeID, int companyID)
         {
             InitializeComponent();
             _employeeViewModel = new EmployeeViewModel(employeeID);
+            _employeeViewModel.CompanyID = companyID;
             this.Text = "Edit employee";
             btnSave.Text = "Edit";
             txbTitle.Text = _employeeViewModel.Employee.Title;
             txbName.Text = _employeeViewModel.Employee.Name;
             txbSurname.Text = _employeeViewModel.Employee.Surname;
             txbPhone.Text = _employeeViewModel.Employee.Phone;
-            //get department
-            //foreach (var item in _employeeViewModel.)
-            //{
-            //    cbxDepartment.Items.Add($"{item.id} - {item.text}")
-            //}
+            _employeeViewModel.GetAllDepartments();
+            foreach (var item in _employeeViewModel.DepartmentList)
+            {
+                cbxDepartment.Items.Add($"{item.DepartmentID} - {item.DepartmentName}");
+            }
+            cbxDepartment.SelectedIndex = cbxDepartment.FindString(_employeeViewModel.Employee.DepartmentID.ToString());
+            cbxDepartment.DropDownStyle = ComboBoxStyle.DropDownList;
+
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -51,9 +66,9 @@ namespace DepartmentStructure
                     _employeeViewModel.Employee.Title = txbTitle.Text;
                     _employeeViewModel.Employee.Name= txbName.Text;
                     _employeeViewModel.Employee.Surname= txbSurname.Text;
-                    _employeeViewModel.Employee.Phone = txbPhone.Text;
-                    //treba dat id
-                    _employeeViewModel.Employee.DepartmentID = 0;
+                    _employeeViewModel.Employee.Phone = txbPhone.Text;    
+                    var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
+                    _employeeViewModel.Employee.DepartmentID= int.Parse(ret[0]);
 
                     _employeeViewModel.UpdateEmployee();
                     if (_employeeViewModel.ActionResult.DBResultEnum == DbEnum.DBResposeType.OK)
@@ -87,7 +102,8 @@ namespace DepartmentStructure
                     _employeeViewModel.NewEmployee.Name = txbName.Text;
                     _employeeViewModel.NewEmployee.Surname= txbSurname.Text;
                     _employeeViewModel.NewEmployee.Phone = txbPhone.Text;
-                    //_employeeViewModel.NewEmployee.DepartmentID = (int)cbxDepartment.SelectedValue(); ;
+                    var ret = cbxDepartment.SelectedItem.ToString().Split(' ');
+                    _employeeViewModel.NewEmployee.DepartmentID = int.Parse(ret[0]);                    
                     _employeeViewModel.AddEmployee();
                     if (_employeeViewModel.ActionResult.DBResultEnum == DbEnum.DBResposeType.OK)
                     {

@@ -19,10 +19,14 @@ namespace DepartmentStructure
             InitializeComponent();
             _companyViewModel = new CompanyViewModel();
             dgwCompany.DataSource = _companyViewModel.GetAllCompanies();
-            dgwCompany.DataMember = "Department";
+            dgwCompany.DataMember = "Company";
             if (dgwCompany.RowCount > 0)
             {
                 _companyID = (int)dgwCompany.Rows[0].Cells[0].Value;
+            }
+            else
+            {
+                _companyID = 0;
             }
         }
 
@@ -38,15 +42,26 @@ namespace DepartmentStructure
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            using(MainView mainView = new MainView(_companyID))
+            if(_companyID!=0)
             {
-                mainView.ShowDialog();
+                using (MainView mainView = new MainView(_companyID))
+                {
+                    mainView.ShowDialog();
+                }
             }
+            else
+            {
+                MessageBox.Show("You must add new company.",
+                            $"Please add new company.",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+            }
+            
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using (DepartmentView departmentView = new DepartmentView())
+            using (DepartmentView departmentView = new DepartmentView(1))
             {
                 departmentView.ShowDialog();
                 if (departmentView.DialogResult == DialogResult.OK)

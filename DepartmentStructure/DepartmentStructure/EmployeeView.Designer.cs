@@ -32,14 +32,14 @@
             this.txbName = new System.Windows.Forms.TextBox();
             this.txbSurname = new System.Windows.Forms.TextBox();
             this.txbPhone = new System.Windows.Forms.TextBox();
-            this.cbxDepartment = new System.Windows.Forms.ComboBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.lblSurname = new System.Windows.Forms.Label();
             this.lblPhone = new System.Windows.Forms.Label();
-            this.lblDepartment = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.cbxDepartment = new System.Windows.Forms.ComboBox();
+            this.lblDepartment = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txbTitle
@@ -61,7 +61,7 @@
             // txbSurname
             // 
             this.txbSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txbSurname.Location = new System.Drawing.Point(40, 153);
+            this.txbSurname.Location = new System.Drawing.Point(40, 156);
             this.txbSurname.Name = "txbSurname";
             this.txbSurname.Size = new System.Drawing.Size(155, 26);
             this.txbSurname.TabIndex = 2;
@@ -73,15 +73,6 @@
             this.txbPhone.Name = "txbPhone";
             this.txbPhone.Size = new System.Drawing.Size(155, 26);
             this.txbPhone.TabIndex = 3;
-            // 
-            // cbxDepartment
-            // 
-            this.cbxDepartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.cbxDepartment.FormattingEnabled = true;
-            this.cbxDepartment.Location = new System.Drawing.Point(252, 151);
-            this.cbxDepartment.Name = "cbxDepartment";
-            this.cbxDepartment.Size = new System.Drawing.Size(155, 28);
-            this.cbxDepartment.TabIndex = 5;
             // 
             // lblTitle
             // 
@@ -107,7 +98,7 @@
             // 
             this.lblSurname.AutoSize = true;
             this.lblSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblSurname.Location = new System.Drawing.Point(36, 130);
+            this.lblSurname.Location = new System.Drawing.Point(36, 133);
             this.lblSurname.Name = "lblSurname";
             this.lblSurname.Size = new System.Drawing.Size(98, 20);
             this.lblSurname.TabIndex = 8;
@@ -123,20 +114,10 @@
             this.lblPhone.TabIndex = 9;
             this.lblPhone.Text = "Phone* :";
             // 
-            // lblDepartment
-            // 
-            this.lblDepartment.AutoSize = true;
-            this.lblDepartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblDepartment.Location = new System.Drawing.Point(248, 128);
-            this.lblDepartment.Name = "lblDepartment";
-            this.lblDepartment.Size = new System.Drawing.Size(114, 20);
-            this.lblDepartment.TabIndex = 10;
-            this.lblDepartment.Text = "Department :";
-            // 
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnCancel.Location = new System.Drawing.Point(40, 198);
+            this.btnCancel.Location = new System.Drawing.Point(40, 188);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(155, 35);
             this.btnCancel.TabIndex = 11;
@@ -147,7 +128,7 @@
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSave.Location = new System.Drawing.Point(252, 198);
+            this.btnSave.Location = new System.Drawing.Point(252, 188);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(155, 35);
             this.btnSave.TabIndex = 12;
@@ -155,19 +136,38 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // cbxDepartment
+            // 
+            this.cbxDepartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cbxDepartment.FormattingEnabled = true;
+            this.cbxDepartment.Location = new System.Drawing.Point(252, 133);
+            this.cbxDepartment.Name = "cbxDepartment";
+            this.cbxDepartment.Size = new System.Drawing.Size(155, 28);
+            this.cbxDepartment.TabIndex = 13;
+            // 
+            // lblDepartment
+            // 
+            this.lblDepartment.AutoSize = true;
+            this.lblDepartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblDepartment.Location = new System.Drawing.Point(248, 110);
+            this.lblDepartment.Name = "lblDepartment";
+            this.lblDepartment.Size = new System.Drawing.Size(114, 20);
+            this.lblDepartment.TabIndex = 14;
+            this.lblDepartment.Text = "Department :";
+            // 
             // EmployeeView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(443, 255);
+            this.ClientSize = new System.Drawing.Size(443, 235);
+            this.Controls.Add(this.lblDepartment);
+            this.Controls.Add(this.cbxDepartment);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.lblDepartment);
             this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.lblSurname);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.cbxDepartment);
             this.Controls.Add(this.txbPhone);
             this.Controls.Add(this.txbSurname);
             this.Controls.Add(this.txbName);
@@ -185,13 +185,13 @@
         private System.Windows.Forms.TextBox txbName;
         private System.Windows.Forms.TextBox txbSurname;
         private System.Windows.Forms.TextBox txbPhone;
-        private System.Windows.Forms.ComboBox cbxDepartment;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblSurname;
         private System.Windows.Forms.Label lblPhone;
-        private System.Windows.Forms.Label lblDepartment;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.ComboBox cbxDepartment;
+        private System.Windows.Forms.Label lblDepartment;
     }
 }

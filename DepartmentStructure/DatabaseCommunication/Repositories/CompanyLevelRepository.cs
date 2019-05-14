@@ -24,8 +24,9 @@ namespace DatabaseCommunication.Repositories
                     connection.Open();
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = @"SELECT [DepartmentID],[DepartmentName]      
-                                                FROM [DepartmentStructure].[dbo].[Department]";
+                        command.CommandText = @"SELECT[CompanyLevelID],[LevelName]
+                                                FROM [DepartmentStructure].[dbo].[CompanyLevel]
+                                                where companylevelid !=1";
                         try
                         {
                             using (SqlDataReader reader = command.ExecuteReader())
