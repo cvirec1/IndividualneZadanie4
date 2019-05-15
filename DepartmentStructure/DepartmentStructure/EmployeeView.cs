@@ -80,7 +80,7 @@ namespace DepartmentStructure
                     if (_employeeViewModel.ActionResult.DBResultEnum == DbEnum.DBResposeType.OK)
                     {
                         MessageBox.Show(_employeeViewModel.ActionResult.DBResultMessage,
-                            $"Success add.",
+                            $"Success edit.",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;
